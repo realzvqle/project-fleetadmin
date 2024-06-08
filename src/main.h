@@ -11,7 +11,7 @@
 #include <stdio.h>
 
 
-
+#define VER 0.0
 
 typedef struct _data{
     int current_scene;

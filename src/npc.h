@@ -4,16 +4,16 @@
 
 
 
-#include "externelheaders/raylib.h"
 #include "main.h"
-#include "stdint.h"
+#include <stdint.h>
 
 void start_npc();
 
-
 typedef struct _npc {
-    int x;
-    int y;
+    uint8_t likeness;
+    float rotation;
+    float x;
+    float y;
     uint8_t ship_type;
     unsigned int ship_speed;
     Color color;
@@ -22,11 +22,14 @@ typedef struct _npc {
 } npc;
 
 typedef struct _station {
+    uint8_t likeness;
+
     int x;
     int y;
     uint8_t station_type;
     Color color;
     bool is_alive;
+
 } station;
 
 #endif
