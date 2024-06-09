@@ -12,7 +12,7 @@ void start_window(){
         0
     };
     SetTraceLogLevel(LOG_FATAL);
-    InitWindow(1600, 900, "Confidential");
+    InitWindow(1920, 1080, "Confidential");
     while(!WindowShouldClose()){
         BeginDrawing();
         ClearBackground(BLACK);

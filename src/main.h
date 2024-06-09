@@ -11,6 +11,9 @@
 #include <stdio.h>
 
 
+#define GAMEWIDTH GetScreenWidth() - 300
+#define GAMEHEIGHT GetScreenHeight() - 300
+
 #define VER 0.0
 
 typedef struct _data{

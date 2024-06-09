@@ -5,7 +5,7 @@
 
 int y_arr[20];
 int x_arr[20];
-
+bool npc_init = false;
 extern float player_x;
 extern float player_y;
 
@@ -40,7 +40,7 @@ static inline void follow_player(npc* npc){
     if(distance >= 25){
         npc->rotation = distance;
         if(npc->x == player_x){
-            printf("Equal On the X Axis\n");
+            //printf("Equal On the X Axis\n");
         }
         if(npc->x < player_x){
             npc->x = fmin(npc->x + speed, player_x);
@@ -51,7 +51,7 @@ static inline void follow_player(npc* npc){
 
         }
         if(npc->y == player_y){
-            printf("Equal On the Y Axis\n");
+           //printf("Equal On the Y Axis\n");
 
         }
         if(npc->y < player_y){
@@ -75,8 +75,7 @@ void start_npc() {
     static int ship_count;
     static station stion[3];  
     static npc ships[17];
-    static bool init = false;
-    if (!init) {
+    if (!npc_init) {
         npc_image = LoadTexture("assets/ship.png");
         station_image = LoadTexture("assets/station.png");
         
@@ -85,8 +84,8 @@ void start_npc() {
         for (int i = 0; i < 20; i++) {
             if (i % 8 == 0 && station_count < 3) {  
                 stion[station_count].likeness = GetRandomValue(0, 4);      
-                stion[station_count].y = GetRandomValue(0, 900 - 25);
-                stion[station_count].x = GetRandomValue(0, 1600 - 25);
+                stion[station_count].y = GetRandomValue(0, GAMEHEIGHT - 25);
+                stion[station_count].x = GetRandomValue(0, GAMEWIDTH - 25);
                 switch(ships[ship_count].likeness){
                     case 0:
                         stion[station_count].color = RED;
@@ -112,8 +111,8 @@ void start_npc() {
             } else if (ship_count < 17) {  
                 ships[ship_count].rotation = 0;  
                 ships[ship_count].likeness = GetRandomValue(0, 4);      
-                ships[ship_count].y = GetRandomValue(0, 900 - 25);
-                ships[ship_count].x = GetRandomValue(0, 1600 - 25);
+                ships[ship_count].y = GetRandomValue(0, GAMEHEIGHT - 25);
+                ships[ship_count].x = GetRandomValue(0, GAMEWIDTH - 25);
                 switch(ships[ship_count].likeness){
                     case 0:
                         ships[ship_count].color = RED;
@@ -141,12 +140,12 @@ void start_npc() {
                 ship_count++;
             }
         }
-        init = true;
+        npc_init = true;
     }
     station_count = 0;
     ship_count = 0;
     for (int i = 0; i < 20; i++) {
-        if(IsKeyPressed(KEY_R)) init = false;
+        if(IsKeyPressed(KEY_R)) npc_init = false;
         if (i % 8 == 0 && station_count < 3) {
             create_station(&stion[station_count]);
             station_count++;

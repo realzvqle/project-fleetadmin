@@ -4,7 +4,7 @@
 
 
 
-
+float adder;
 
 
 float get_distance(float x_1, float y_1, float x_2, float y_2){
@@ -24,23 +24,26 @@ float calculate_angle(float x_1, float y_1, float x_2, float y_2) {
 }
 
 void follow(float* x_1, float* y_1, float x_2, float y_2) {
-    float speed = 400 * GetFrameTime();
+    if(!adder){
+        adder = 1;
+    }
+    float speed = (400 * adder) * GetFrameTime();
     float distance = get_distance(*x_1, *y_1, x_2, y_2);
-    if (distance >= 25) {
+    if (distance >= 10) {
         if (*x_1 < x_2) {
             *x_1 += speed;
-            if (*x_1 > x_2) *x_1 = x_2; // Prevent overshooting
+            if (*x_1 > x_2) *x_1 = x_2; 
         } else if (*x_1 > x_2) {
             *x_1 -= speed;
-            if (*x_1 < x_2) *x_1 = x_2; // Prevent overshooting
+            if (*x_1 < x_2) *x_1 = x_2;
         }
         
         if (*y_1 < y_2) {
             *y_1 += speed;
-            if (*y_1 > y_2) *y_1 = y_2; // Prevent overshooting
+            if (*y_1 > y_2) *y_1 = y_2; 
         } else if (*y_1 > y_2) {
             *y_1 -= speed;
-            if (*y_1 < y_2) *y_1 = y_2; // Prevent overshooting
+            if (*y_1 < y_2) *y_1 = y_2; 
         }
     }
 }
