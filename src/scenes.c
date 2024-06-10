@@ -2,24 +2,24 @@
 #include "externelheaders/raylib.h"
 #include "gameloop.h"
 #include "ui.h"
+#include "tools.h"
 
 
-
-
+extern Font font;
 
 
 void check_scenes(data* data){
     switch(data->current_scene){
         case 0:
-            DrawText(
+            draw_text(
                 "Project-FleetAdmin", 
-                (GetScreenWidth() - MeasureText("Project-FleetAdmin", 70)) / 2,
+                (GetScreenWidth() - MeasureTextEx(font, "Project-FleetAdmin", 70, 1).x) / 2,
                  GetScreenHeight() / 2, 70, RED);
             ButtonState button = draw_button("Play", (GetScreenWidth() - 190) / 2, GetScreenHeight() /2 + 180, 190, 90, WHITE, BLACK, GRAY, NULL);
             if(button == BUTTON_CLICK_LEFT){
                 data->current_scene = 1;
             }
-            DrawText("HOW TO MOVE:\n\n\nclick at a position to move the player", 10, 10, 36, WHITE);
+            draw_text("HOW TO MOVE:\n\n\nclick at a position to move the player", 10, 10, 36, WHITE);
 
             break;
         case 1: 

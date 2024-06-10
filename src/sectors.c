@@ -1,7 +1,7 @@
 #include "sectors.h"
 #include "externelheaders/raylib.h"
 #include "main.h"
-#include "tools.h"
+//#include "tools.h"
 #include <string.h>
 
 
@@ -9,6 +9,7 @@
 char* sector_names[] = {"Jupala", "Gacko", "Helium", "Solaris", "Windo", "Dubsix", "Jupitar", "Earthium", "Hexium",
                         "Mainium", "Rayium", "Unitium", "Goditium", "Unraxium", "Axisium", "Allieium", "Centrelium", "Germanium",
                         "Europium", "Amerium"};
+
 char* prev_sector_names[9];
 char* current_sector_names[9];
 int current_player_coord;
@@ -16,36 +17,43 @@ int current_player_coord;
 extern float player_x;
 extern float player_y;
 extern bool npc_init;
+extern bool target_activated;
+
 
 void wormholes(){
-    DrawRectangle(0, (GAMEHEIGHT / 2) - 90 * 6, 10, 90, GREEN);
-    DrawRectangle(GAMEWIDTH - 10, (GAMEHEIGHT / 2) - 90 * 6, 10, 90, GREEN);
+    int height = (GAMEHEIGHT / 2.0f) - 90 * 6;
+    if(current_player_coord > 0){
+        DrawRectangle(GAMEWIDTH - 10, height, 10, 90, GREEN);
+    }
+    if(current_player_coord < 8){
+        DrawRectangle(0, (GAMEHEIGHT / 2) - 90 * 6, 10, 90, GREEN);
+    }
     if(CheckCollisionRecs((Rectangle){player_x, player_y, 25, 25}, 
-                        (Rectangle){0, (GAMEHEIGHT / 2.0f) - 90 * 6, 10, 90}))
+                        (Rectangle){0, height, 10, 90}))
     {
         if(current_player_coord == 8){
-            current_player_coord=current_player_coord;
             return;
         }
         current_player_coord++;
-        player_y =  (GAMEHEIGHT / 2.0f) - 90 * 6;
-        player_x = GAMEWIDTH - 25;
+        player_y =  height;
+        player_x = GAMEWIDTH - 70;
         npc_init = false;   
+        target_activated = false;
         printf("%s\n", current_sector_names[current_player_coord]);
     }
-    if(get_distance(player_x, player_y,(GAMEWIDTH - 10) - 25, (GAMEHEIGHT / 2.0f) - 90 * 6) <= 81)
-    {  
-        if(current_player_coord == 8){
-            current_player_coord=current_player_coord;
+    if(CheckCollisionRecs((Rectangle){player_x, player_y, 25, 25}, 
+                        (Rectangle){GAMEWIDTH - 10, height, 10, 90}))
+    {
+        if(current_player_coord <= 0){
             return;
         }
-        current_player_coord++;
-        player_y =  (GAMEHEIGHT / 2.0f) - 90 * 6;
-        player_x = 0;
+        current_player_coord--;
+        player_y =  height;
+        player_x = 0 + 70;
+        target_activated = false;
         npc_init = false;   
         printf("%s\n", current_sector_names[current_player_coord]);
     }
-    
 }
 
 

@@ -1,11 +1,12 @@
 #include "tools.h"
+#include "externelheaders/raylib.h"
 #include <math.h>
 
 
 
 
 float adder;
-
+extern Font font;
 
 float get_distance(float x_1, float y_1, float x_2, float y_2){
     float sub_x = x_2 - x_1;
@@ -23,11 +24,14 @@ float calculate_angle(float x_1, float y_1, float x_2, float y_2) {
     return atan2f(dy, dx) * (180.0f / PI); 
 }
 
-void follow(float* x_1, float* y_1, float x_2, float y_2) {
+void follow(float* x_1, float* y_1, float x_2, float y_2, bool isPlayer) {
     if(!adder){
         adder = 1;
     }
-    float speed = (400 * adder) * GetFrameTime();
+    float speed;
+    if(isPlayer) speed = (400 * adder) * GetFrameTime();
+    else speed = (400) * GetFrameTime();
+
     float distance = get_distance(*x_1, *y_1, x_2, y_2);
     if (distance >= 10) {
         if (*x_1 < x_2) {
@@ -46,4 +50,10 @@ void follow(float* x_1, float* y_1, float x_2, float y_2) {
             if (*y_1 < y_2) *y_1 = y_2; 
         }
     }
+}
+
+
+void draw_text(const char *text, int posX, int posY, int fontSize, Color color){
+    
+    DrawTextEx(font, text, (Vector2){posX, posY}, fontSize, 1, color);
 }

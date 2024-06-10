@@ -2,6 +2,8 @@
 #include "externelheaders/raylib.h"
 #include "tools.h"
 #include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 int y_arr[20];
 int x_arr[20];
@@ -12,7 +14,9 @@ extern float player_y;
 Texture2D npc_image;
 Texture2D station_image;
 
-
+npc ships[17];
+station stion[3]; 
+ 
 static inline void create_npc(npc* npc) {
     float angle = calculate_angle(npc->x, npc->y, player_x, player_y);
     if (npc->is_alive){
@@ -31,6 +35,38 @@ static inline void create_station(station* station) {
 
 static inline void delete_npc(npc* npc) {
     npc->is_alive = false;
+}
+
+void dump_npc_memory(npc* npcs, size_t count, FILE* fp) {
+    // Write the number of NPCs first
+    fwrite(&count, sizeof(size_t), 1, fp);
+    // Write the array of NPCs
+    fwrite(npcs, sizeof(npc), count, fp);
+}
+
+
+npc* read_npc_memory(size_t* count, FILE* fp) {
+    // Read the number of NPCs
+    if (fread(count, sizeof(size_t), 1, fp) != 1) {
+        perror("Failed to read NPC count");
+        return NULL;
+    }
+
+    // Allocate memory for the NPCs
+    npc* npcs = malloc(*count * sizeof(npc));
+    if (npcs == NULL) {
+        perror("Failed to allocate memory for NPCs");
+        return NULL;
+    }
+
+    // Read the array of NPCs
+    if (fread(npcs, sizeof(npc), *count, fp) != *count) {
+        perror("Failed to read NPCs");
+        free(npcs);
+        return NULL;
+    }
+
+    return npcs;
 }
 
 static inline void follow_player(npc* npc){
@@ -73,12 +109,10 @@ static inline void npc_logic(npc* npc, int i){
 void start_npc() {
     static int station_count;
     static int ship_count;
-    static station stion[3];  
-    static npc ships[17];
+    static FILE* fp;
     if (!npc_init) {
         npc_image = LoadTexture("assets/ship.png");
-        station_image = LoadTexture("assets/station.png");
-        
+        station_image = LoadTexture("assets/station.png");       
         station_count = 0;
         ship_count = 0;
         for (int i = 0; i < 20; i++) {

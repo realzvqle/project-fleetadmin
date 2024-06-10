@@ -1,8 +1,9 @@
 #include "ui.h"
 #include "externelheaders/raylib.h"
+#include "tools.h"
 
 
-
+extern Font font;
 
 ButtonState draw_button(char* text, int x, int y, int sizeX, int sizeY, Color baseColor, Color textColor, Color hoverColor, int textSize) {
     if (!textSize) {
@@ -18,10 +19,10 @@ ButtonState draw_button(char* text, int x, int y, int sizeX, int sizeY, Color ba
         textWidth += MeasureText(&text[i], textSize);
     }
 
-    int textX = x + (sizeX - MeasureTextEx(GetFontDefault(), text, textSize, 4).x) / 2;
+    int textX = x + (sizeX - MeasureTextEx(font, text, textSize, 4).x) / 2;
     int textY = y + (sizeY - textSize) / 2;
 
-    DrawText(text, textX, textY, textSize, textColor);
+    draw_text(text, textX, textY, textSize, textColor);
 
     if (isMouseOver && IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
         DrawRectangleLinesEx((Rectangle) { x, y, sizeX, sizeY }, 2, textColor);
