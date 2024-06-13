@@ -1,14 +1,15 @@
 #include "window.h"
 #include "externelheaders/raylib.h"
+#include "player.h"
 #include "scenes.h"
 
 
 
 Font font;
-extern Texture2D player_image;
-extern Texture2D npc_image;
-extern Texture2D station_image;
-
+// extern Texture2D player_image;
+// extern Texture2D npc_image;
+// extern Texture2D station_image;
+extern player plyer;
 
 void start_window(){
     data dt = {
@@ -26,9 +27,9 @@ void start_window(){
         EndDrawing();
     }
     UnloadFont(font);
-    UnloadTexture(player_image);
-    UnloadTexture(npc_image);
-    UnloadTexture(station_image);
+    UnloadTexture(plyer.player_image);
+    //UnloadTexture(npc_image);
+    //UnloadTexture(station_image);
 
     CloseWindow();
 }

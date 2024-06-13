@@ -3,7 +3,7 @@
 #include "main.h"
 //#include "tools.h"
 #include <string.h>
-
+#include "player.h"
 
 
 char* sector_names[] = {"Jupala", "Gacko", "Helium", "Solaris", "Windo", "Dubsix", "Jupitar", "Earthium", "Hexium",
@@ -14,11 +14,12 @@ char* prev_sector_names[9];
 char* current_sector_names[9];
 int current_player_coord;
 
-extern float player_x;
-extern float player_y;
-extern bool npc_init;
-extern bool target_activated;
+// extern float player_x;
+// extern float player_y;
+//extern bool npc_init;
+// extern bool target_activated;
 
+extern player plyer;
 
 void wormholes(){
     int height = (GAMEHEIGHT / 2.0f) - 90 * 6;
@@ -28,30 +29,30 @@ void wormholes(){
     if(current_player_coord < 8){
         DrawRectangle(0, (GAMEHEIGHT / 2) - 90 * 6, 10, 90, GREEN);
     }
-    if(CheckCollisionRecs((Rectangle){player_x, player_y, 25, 25}, 
+    if(CheckCollisionRecs((Rectangle){plyer.player_x, plyer.player_y, 25, 25}, 
                         (Rectangle){0, height, 10, 90}))
     {
         if(current_player_coord == 8){
             return;
         }
         current_player_coord++;
-        player_y =  height;
-        player_x = GAMEWIDTH - 70;
-        npc_init = false;   
-        target_activated = false;
+        plyer.player_y =  height;
+        plyer.player_x = GAMEWIDTH - 70;
+        //npc_init = false;   
+        plyer.target_activated = false;
         printf("%s\n", current_sector_names[current_player_coord]);
     }
-    if(CheckCollisionRecs((Rectangle){player_x, player_y, 25, 25}, 
+    if(CheckCollisionRecs((Rectangle){plyer.player_x, plyer.player_y, 25, 25}, 
                         (Rectangle){GAMEWIDTH - 10, height, 10, 90}))
     {
         if(current_player_coord <= 0){
             return;
         }
         current_player_coord--;
-        player_y =  height;
-        player_x = 0 + 70;
-        target_activated = false;
-        npc_init = false;   
+        plyer.player_y =  height;
+        plyer.player_x = 0 + 70;
+        plyer.target_activated = false;
+        //npc_init = false;   
         printf("%s\n", current_sector_names[current_player_coord]);
     }
 }

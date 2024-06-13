@@ -20,9 +20,7 @@ typedef enum ButtonState{
 
 
 ButtonState draw_button(char* text, int x, int y, int sizeX, int sizeY, Color baseColor, Color textColor, Color hoverColor, int textSize);
-
-
-
+void game_ui();
 
 
 #endif
