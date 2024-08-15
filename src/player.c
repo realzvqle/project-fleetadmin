@@ -4,7 +4,6 @@
 #include "npc.h"
 #include "ui.h"
 #include <stdbool.h>
-#include <threads.h>
 
 
 extern float adder;

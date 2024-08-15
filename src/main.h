@@ -9,6 +9,7 @@
 
 #include "externelheaders/raylib.h"
 #include <stdio.h>
+#include <stdbool.h>
 
 
 #define GAMEWIDTH GetScreenWidth() - 300

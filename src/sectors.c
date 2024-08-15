@@ -4,7 +4,7 @@
 //#include "tools.h"
 #include <string.h>
 #include "player.h"
-
+#include "saving.h"
 
 char* sector_names[] = {"Jupala", "Gacko", "Helium", "Solaris", "Windo", "Dubsix", "Jupitar", "Earthium", "Hexium",
                         "Mainium", "Rayium", "Unitium", "Goditium", "Unraxium", "Axisium", "Allieium", "Centrelium", "Germanium",
@@ -61,6 +61,12 @@ void wormholes(){
 void generate_sectors() {
     //printf("%f\n", get_distance(player_x, player_y,(GAMEWIDTH - 10) - 25, (GAMEHEIGHT / 2.0f) - 90 * 6));
     static bool init = false;
+
+    // if(check_if_file_exists("sectors.sav")){
+    //     read_file("sectors.sav", current_sector_names, sizeof(current_sector_names), 9);
+
+    //     init = true;
+    // }
     if (!init) {
         for (int i = 0; i < 9; i++) {
             bool unique = false;
@@ -80,15 +86,11 @@ void generate_sectors() {
                 }
             }
         }
+        save_file("sectors.sav", current_sector_names, sizeof(current_sector_names), 9);
         current_player_coord = 0;
         init = true;
         printf("----------------------\n");
         printf("%s\n", current_sector_names[current_player_coord]);
-
-    }
-
-    if(IsKeyPressed(KEY_G)){
-        
     }
     if(IsKeyPressed(KEY_H)){
         if(current_player_coord >= 6){
