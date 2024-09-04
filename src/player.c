@@ -1,12 +1,12 @@
 #include "player.h"
 #include "externelheaders/raylib.h"
+#include "saving.h"
 #include "tools.h"
 #include "npc.h"
 #include "ui.h"
 #include <stdbool.h>
 
 
-extern float adder;
 
 
 player plyer;
@@ -48,8 +48,15 @@ void weapons() {
 
 void run_player(){
     static bool init = false;
-    if(init == false){    
-        adder = 0.5;
+    if(init == false){ 
+        if(check_if_file_exists("players.sav")){
+            printf("Hello");
+            read_file("players.sav", &plyer, sizeof(player), 11);
+            plyer.player_image = LoadTexture("assets/ship.png");
+            init = true;
+            return;
+        }   
+        plyer.adder = 0.5;
         plyer.player_image = LoadTexture("assets/ship.png");
         plyer.player_x = GetScreenWidth() / 2.0f;
         plyer.player_y = GetScreenHeight() / 2.0f;
@@ -58,6 +65,7 @@ void run_player(){
         plyer.bullet_x = plyer.player_x;
         plyer.bullet_y = plyer.player_y;
         plyer.speed = 400.0f;
+        save_file("players.sav", &plyer, sizeof(player), 11);
         init = true; 
     }
     float angle = calculate_angle(plyer.player_x, plyer.player_y, GetMouseX(), GetMouseY());
@@ -67,6 +75,11 @@ void run_player(){
             follow(&plyer.player_x, &plyer.player_y, GetMouseX(), GetMouseY(), true);
         }
     }   
+    if(IsKeyPressed('S')){
+        printf("Saving Player Data...\n");
+        save_file("players.sav", &plyer, sizeof(player), 11);
+        init = false;
+    }
     game_ui();
     weapons();
 }

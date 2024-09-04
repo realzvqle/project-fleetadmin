@@ -19,7 +19,13 @@ typedef struct _player{
     float bullet_y;
     int current_bullet;
     bool bullet_active;
+    float adder;
 } player;
+
+
+typedef struct _playersave{
+    player player;
+} playersave;
 
 void run_player();
 

@@ -5,7 +5,6 @@
 
 
 extern Font font;
-extern float adder;
 extern player plyer;
 ButtonState draw_button(char* text, int x, int y, int sizeX, int sizeY, Color baseColor, Color textColor, Color hoverColor, int textSize) {
     if (!textSize) {
@@ -75,16 +74,16 @@ void game_ui(){
     DrawRectangleLines(GetScreenWidth() - GetScreenWidth(), GetScreenHeight() - 300, GetScreenWidth(), 300, RED);
     ButtonState IncreaseButton = draw_button("+", GetScreenWidth() - 60, GetScreenHeight() - 200, 40, 40, WHITE, BLACK, DARKGRAY, NULL);
     if(IncreaseButton == BUTTON_CLICK_LEFT){
-        if(adder >= 2) return;
-        adder += 0.1;
+        if(plyer.adder >= 2) return;
+        plyer.adder += 0.1;
     }
     char buffer[512];
-    sprintf(buffer, "%0.1f", adder);
+    sprintf(buffer, "%0.1f", plyer.adder);
     draw_text(buffer, GetScreenWidth() - 60, GetScreenHeight() - 130, 40, WHITE);
     ButtonState DecreaseButton = draw_button("-", GetScreenWidth() - 60, GetScreenHeight() - 60, 40, 40, WHITE, BLACK, DARKGRAY, NULL);
     if(DecreaseButton == BUTTON_CLICK_LEFT){
-        if(adder <= 0.1) return;
-        adder -= 0.1;
+        if(plyer.adder <= 0.1) return;
+        plyer.adder -= 0.1;
     }
     weapon_ui();
 }

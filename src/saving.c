@@ -1,4 +1,5 @@
 #include "saving.h"
+#include <stdlib.h>
 
 
 #define STRING_SIZE 50
@@ -25,6 +26,8 @@ bool check_if_file_exists(char* filename){
 bool read_file(char* filename, void* data, size_t data_size, size_t count){
     FILE* fp = fopen(filename, "rb");
     if(!fp){
+        printf("Failure\n");
+        exit(0);
         return false;
     }
     fread(data, data_size, count, fp);
